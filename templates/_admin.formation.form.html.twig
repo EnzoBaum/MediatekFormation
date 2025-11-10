@@ -1,0 +1,64 @@
+{{ form_start(formformation, {'attr': {'class': 'p-4 bg-light rounded shadow-sm'}}) }}
+
+    <div class="mb-4">
+        <h4 class="mb-2">Titre de la formation</h4>
+        {{ form_widget(formformation.title, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(formformation.title) }}
+    </div>
+
+    <div class="mb-4">
+        <h4 class="mb-2">Description</h4>
+        {{ form_widget(formformation.description, {'attr': {'class': 'form-control', 
+        'rows': '3'}}) }}
+        {{ form_errors(formformation.description) }}
+    </div>
+
+    <div class="mb-4">
+        <h4 class="mb-2">Playlist</h4>
+        {{ form_widget(formformation.playlist, {'attr': {'class': 'form-select'}}) }}
+        {{ form_errors(formformation.playlist) }}
+    </div>
+
+    <div class="mb-4">
+        <h4 class="mb-2">Catégories</h4>
+        <div class="border rounded p-3 bg-white">
+            {{ form_widget(formformation.categories) }}
+        </div>
+        {{ form_errors(formformation.categories) }}
+    </div>
+
+    <div class="mb-4">
+        <h4 class="mb-2">Date de publication</h4>
+        {{ form_widget(formformation.publishedAt, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(formformation.publishedAt) }}
+    </div>
+
+    <div class="mb-4">
+        <h4 class="mb-2">Lien de la vidéo</h4>
+        {% set fullVideoUrl = formformation.vars.data.videoId ? 
+        'https://www.youtube.com/watch?v=' ~ formformation.vars.data.videoId : '' %}
+        {{ form_widget(formformation.videoId, {'attr': {'class': 'form-control', 
+        'value': fullVideoUrl}}) }}
+        {{ form_errors(formformation.videoId) }}
+    </div>
+
+    {% if formformation.vars.data.videoId %}
+        <div class="mt-4 text-center">
+            <h5 class="mb-2">Aperçu de la vidéo :</h5>
+            <div class="ratio ratio-16x9">
+                <iframe 
+                    src="https://www.youtube.com/embed/{{ formformation.vars.data.videoId|
+                    replace({'https://www.youtube.com/watch?v=': ''}) }}" 
+                    title="Vidéo YouTube" 
+                    allowfullscreen>
+                </iframe>
+            </div>
+        </div>
+    {% endif %}
+
+    <div class="mt-4 text-center">
+        <button class="btn btn-primary px-4 py-2">Enregistrer</button>
+        <a href="{{ path('admin.formations') }}" class="btn btn-secondary px-4 py-2 ms-2">Annuler</a>
+    </div>
+
+{{ form_end(formformation) }}
