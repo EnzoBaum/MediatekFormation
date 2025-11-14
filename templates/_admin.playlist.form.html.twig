@@ -1,0 +1,37 @@
+{{ form_start(formplaylist, {'attr': {'class': 'p-4 bg-light rounded shadow-sm'}}) }}
+
+    <div class="mb-4">
+        <h4 class="mb-2">Nom de la playlist</h4>
+        {{ form_widget(formplaylist.name, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(formplaylist.name) }}
+    </div>
+
+    <div class="mb-4">
+        <h4 class="mb-2">Description</h4>
+        {{ form_widget(formplaylist.description, {'attr': {'class': 'form-control', 'rows': '3'}}) }}
+        {{ form_errors(formplaylist.description) }}
+    </div>
+
+    {% if formplaylist.vars.data.id is not null %}
+        <div class="mb-4">
+            <h4 class="mb-2">Formations liées</h4>
+            {% if formplaylist.vars.data.formations is not empty %}
+                <ul class="list-group">
+                    {% for formation in formplaylist.vars.data.formations %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            {{ formation.title }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p class="text-muted">Aucune formation n’est rattachée à cette playlist.</p>
+            {% endif %}
+        </div>
+    {% endif %}
+
+    <div class="mt-4 text-center">
+        <button class="btn btn-primary px-4 py-2">Enregistrer</button>
+        <a href="{{ path('admin.playlists') }}" class="btn btn-secondary px-4 py-2 ms-2">Annuler</a>
+    </div>
+
+{{ form_end(formplaylist) }}
