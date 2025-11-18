@@ -1,0 +1,56 @@
+{% extends "baseadmin.html.twig" %}
+{% block body %}
+    {% for message in app.flashes('success_ajout') %}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    {% endfor %}
+    {% for message in app.flashes('error_ajout') %}
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    {% endfor %}
+    {% for message in app.flashes('success_delete') %}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    {% endfor %}
+    {% for message in app.flashes('error_delete') %}
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    {% endfor %}
+    <table class="table table-striped">
+        <tbody>
+        {% for categorie in categories %}
+            <tr class="align-middle">
+                <td>
+                    <h5 class="text-info">{{ categorie.name }}</h5>
+                </td>
+                <td class="text-end">
+                    <form method="post" action="{{ path('admin.categories.delete', {id: categorie.id}) }}" 
+                          onsubmit="return confirm('Voulez-vous vraiment supprimer cette catégorie ?');"
+                          style="display:inline-block;">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ categorie.id) }}">
+                        <button class="btn btn-danger btn-sm">Supprimer</button>
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {{ form_start(formcategorie, {'attr': {'class': 'p-4 bg-light rounded shadow-sm'}}) }}
+        <div class="mb-4">
+            <h4 class="mb-2">Nom de la nouvelle Catégorie</h4>
+            {{ form_widget(formcategorie.name, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(formcategorie.name) }}
+        </div>
+        <div class="mt-4 text-center">
+            <button class="btn btn-primary px-4 py-2">Enregistrer</button>
+        </div>
+    {{ form_end(formcategorie) }}
+{% endblock %}
