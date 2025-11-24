@@ -25,6 +25,14 @@
                         <a class="nav-link" href="{{ path('admin.categories') }}">Catégories</a>
                     </li> 
                 </ul>
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link text-danger fw-bold" href="{{ path('logout') }}"
+                           onclick="return confirm('Souhaitez-vous vraiment vous déconnecter ?');">
+                            Déconnexion
+                        </a>
+                    </li>
+                </ul                    
             </div>
         </nav>        
     </div>
