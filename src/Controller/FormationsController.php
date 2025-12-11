@@ -79,7 +79,7 @@ class FormationsController extends AbstractController
     public function showOne($id): Response
     {
         $formation = $this->formationRepository->find($id);
-        return $this->render(self::CHEMIN_FORMATIONS, [
+        return $this->render('pages/formation.html.twig', [
             'formation' => $formation
         ]);
     }
