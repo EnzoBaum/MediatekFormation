@@ -8,20 +8,34 @@ use App\Repository\FormationRepository;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 /**
- * Description of FormationRepositoryTest
- *
+ * Tests unitaires pour le repository FormationRepository
+ * 
+ * Vérifie les opérations CRUD et les requêtes personnalisées sur les formations :
+ * - Ajout et suppression
+ * - Tri sur différents champs (entité et relations)
+ * - Recherche par valeur contenue
+ * - Récupération des formations récentes
+ * - Récupération des formations d'une playlist
+ * 
  * @author Enzo Baum
  */
 class FormationRepositoryTest extends KernelTestCase {
 
-    // Récupération du repository
+    /**
+     * Récupère une instance du repository FormationRepository
+     * @return FormationRepository
+     */
     public function recupRepository(): FormationRepository
     {
         self::bootKernel();
         return self::getContainer()->get(FormationRepository::class);
     }
     
-    // Test d'ajout d'une formation
+   /**
+     * Vérifie que l'ajout d'une formation fonctionne correctement
+     *
+     * Teste que le compteur de formations augmente de 1 après l'ajout
+     */
     public function testAddFormation()
     {
         $repository = $this->recupRepository();
@@ -31,7 +45,11 @@ class FormationRepositoryTest extends KernelTestCase {
         $this->assertEquals($nbFormations + 1, $repository->count([]), "erreur lors de l'ajout");
     }
     
-    // Test de suppression d'une formation
+    /**
+     * Vérifie que la suppression d'une formation fonctionne correctement
+     * 
+     * Teste que le compteur de formations diminue de 1 après la suppression
+     */
     public function testRemoveFormation()
     {
         $repository = $this->recupRepository();
@@ -42,7 +60,15 @@ class FormationRepositoryTest extends KernelTestCase {
         $this->assertEquals($nbFormations - 1, $repository->count([]), "erreur lors de la suppression");
     }
     
-    // Test retournant toutes les formations triées sur un champ ou une table
+    /**
+     * Vérifie que le tri des formations fonctionne sur différents champs
+     * 
+     * Teste findAllOrderBy avec :
+     * - Tri sur un champ de l'entité Formation (title)
+     * - Tri sur un champ d'une relation (Playlist)
+     * 
+     * Vérifie que l'ordre ASC est respecté dans les deux cas
+     */
     public function testFindAllOrderBy()
     {
         $repository = $this->recupRepository();
@@ -83,8 +109,14 @@ class FormationRepositoryTest extends KernelTestCase {
         );
     }
     
-    // Test retournant les enregistrements dont un champ contient une valeur
-    // ou tous les enregistrements si la valeur est vide
+    /**
+     * Vérifie que la recherche fonctionne correctement
+     * 
+     * Teste findByContainValue avec :
+     * - Valeur vide : retourne tous les enregistrements
+     * - Recherche dans un champ de Formation (title)
+     * - Recherche dans un champ d'une relation (Playlist)
+     */
     public function testFindByContainValue()
     {
         $repository = $this->recupRepository();
@@ -123,7 +155,12 @@ class FormationRepositoryTest extends KernelTestCase {
         $this->assertEquals("Les bases de l'HTML", $resultsHTML[0]->getTitle());
     }
         
-    // Test retournant les n formations les plus récentes
+    /**
+     * Vérifie que la récupération des formations les plus récentes fonctionne.
+     *
+     * Teste findAllLasted en vérifiant que les n formations les plus récentes sont retournées
+     * sont dans l'ordre décroissant en fonction de la date de publication.
+     */
     public function testFindAllLasted()
     {
         $repository = $this->recupRepository();
@@ -152,7 +189,14 @@ class FormationRepositoryTest extends KernelTestCase {
         $this->assertEquals("Les bases du langage C++", $results[0]->getTitle());
     }
     
-    // Test retournant la liste des formations d'une playlist
+    /**
+     * Vérifie que findAllForOnePlaylist retourne les formations d'une playlist
+     *
+     * Teste la requête personnalisée qui récupère toutes les formations
+     * associées à une playlist donnée.
+     *
+     * Vérifie que le résultat n'est pas vide.
+     */
     public function testFindAllForOnePlaylist()
     {
         $repository = $this->recupRepository();

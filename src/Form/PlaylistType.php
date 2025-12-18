@@ -10,8 +10,17 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints as Assert;
 
+/**
+ * Formulaire de gestion des playlists
+ */
 class PlaylistType extends AbstractType
 {
+    /**
+     * Construction du formulaire
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     * @return void
+     */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -33,6 +42,11 @@ class PlaylistType extends AbstractType
             ]);
     }
 
+    /**
+     * Options par défaut du formulaire
+     * @param OptionsResolver $resolver
+     * @return void
+     */
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([

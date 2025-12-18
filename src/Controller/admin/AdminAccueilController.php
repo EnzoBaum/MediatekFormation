@@ -9,7 +9,6 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Contrôleur de l'accueil 
- *
  * @author Enzo Baum
  */
 class AdminAccueilController extends AbstractController
@@ -21,7 +20,7 @@ class AdminAccueilController extends AbstractController
     private $repository;
     
     /**
-     *
+     * Contructeur
      * @param FormationRepository $repository
      */
     public function __construct(FormationRepository $repository)
@@ -29,6 +28,10 @@ class AdminAccueilController extends AbstractController
         $this->repository = $repository;
     }
     
+    /**
+     * @Route("/admin/", name: "admin.accueil")
+     * @return Response
+     */
     #[Route('/admin/', name: 'admin.accueil')]
     public function index(): Response
     {

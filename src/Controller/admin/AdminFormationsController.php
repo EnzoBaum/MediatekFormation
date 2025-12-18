@@ -14,14 +14,13 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Controleur des formations
- *
  * @author Enzo Baum
  */
 class AdminFormationsController extends AbstractController
 {
     
     /**
-     * Chemin vers la page de gestion des formations
+     * Chemin vers la page des formations
      */
     private const CHEMIN_FORMATIONS = "pages/admin/admin.formations.html.twig";
     
@@ -45,23 +44,30 @@ class AdminFormationsController extends AbstractController
     }
 
     /**
-     *
      * @var FormationRepository
      */
     private $formationRepository;
     
     /**
-     *
      * @var CategorieRepository
      */
     private $categorieRepository;
     
+    /**
+     * Constructeur
+     * @param FormationRepository $formationRepository
+     * @param CategorieRepository $categorieRepository
+     */
     public function __construct(FormationRepository $formationRepository, CategorieRepository $categorieRepository)
     {
         $this->formationRepository = $formationRepository;
         $this->categorieRepository= $categorieRepository;
     }
     
+    /**
+     * @Route("/admin/formations", name: "admin.formations")
+     * @return Response
+     */
     #[Route('/admin/formations', name: 'admin.formations')]
     public function index(): Response
     {
@@ -72,7 +78,14 @@ class AdminFormationsController extends AbstractController
             'categories' => $categories
         ]);
     }
-
+    
+    /**
+     * @Route("/admin/formations/tri/{champ}/{ordre}/{table}", name: "admin.formations.sort")
+     * @param type $champ
+     * @param type $ordre
+     * @param type $table
+     * @return Response
+     */
     #[Route('/admin/formations/tri/{champ}/{ordre}/{table}', name: 'admin.formations.sort')]
     public function sort($champ, $ordre, $table=""): Response
     {
@@ -83,7 +96,14 @@ class AdminFormationsController extends AbstractController
             'categories' => $categories
         ]);
     }
-
+    
+    /**
+     * @Route("/admin/formations/recherche/{champ}/{table}", name: "admin.formations.findallcontain")
+     * @param type $champ
+     * @param Request $request
+     * @param type $table
+     * @return Response
+     */
     #[Route('/admin/formations/recherche/{champ}/{table}', name: 'admin.formations.findallcontain')]
     public function findAllContain($champ, Request $request, $table=""): Response
     {
@@ -97,7 +117,12 @@ class AdminFormationsController extends AbstractController
             'table' => $table
         ]);
     }
-
+    
+    /**
+     * @Route("/admin/formations/formation/{id}", name: "admin.formations.showone")
+     * @param type $id
+     * @return Response
+     */
     #[Route('/admin/formations/formation/{id}', name: 'admin.formations.showone')]
     public function showOne($id): Response
     {
@@ -107,6 +132,13 @@ class AdminFormationsController extends AbstractController
         ]);
     }
     
+    /**
+     * @Route("/admin/formations/edit/{id}", name: "admin.formations.edit")
+     * @param type $id
+     * @param Request $request
+     * @param EntityManagerInterface $entityManager
+     * @return Response
+     */
     #[Route('admin/formations/edit/{id}', name: 'admin.formations.edit')]
     public function edit($id, Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -132,7 +164,14 @@ class AdminFormationsController extends AbstractController
             'formation' => $formation,
         ]);
     }
-
+    
+    /**
+     * @Route("/admin/formations/delete/{id}", name: "admin.formations.delete")
+     * @param Request $request
+     * @param Formation $formation
+     * @param EntityManagerInterface $entityManager
+     * @return Response
+     */
     #[Route('admin/formations/delete/{id}', name: 'admin.formations.delete', methods: ['POST'])]
     public function delete(Request $request, Formation $formation, EntityManagerInterface $entityManager): Response
     {
@@ -146,6 +185,12 @@ class AdminFormationsController extends AbstractController
         return $this->redirectToRoute('admin.formations');
     }
     
+    /**
+     * @Route("/admin/formations/ajout", name: "admin.formations.ajout")
+     * @param Request $request
+     * @param FormationRepository $repository
+     * @return Response
+     */
     #[Route('admin/formation/ajout', name: 'admin.formations.ajout')]
     public function ajout(Request $request, FormationRepository $repository): Response
     {

@@ -8,12 +8,16 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 /**
- * Controleur de l'authentification
- *
+ * Contrôleur de l'authentification
  * @author Enzo Baum
  */
 final class LoginController extends AbstractController
 {
+    /**
+     * @Route("/login", name: "app_login")
+     * @param AuthenticationUtils $authenticationUtils
+     * @return Response
+     */
     #[Route('/login', name: 'app_login')]
     public function index(AuthenticationUtils $authenticationUtils): Response
     {
@@ -25,6 +29,9 @@ final class LoginController extends AbstractController
         ]);
     }
     
+    /**
+     * @Route("/logout", name: "logout")
+     */
     #[Route('/logout', name: 'logout')]
     public function logout() {
         

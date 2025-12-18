@@ -13,8 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * Description of PlaylistsController
- *
+ * Contrôleur des playlists
  * @author Enzo Baum
  */
 class AdminPlaylistsController extends AbstractController
@@ -26,23 +25,26 @@ class AdminPlaylistsController extends AbstractController
     private const CHEMIN_PLAYLIST = "pages/admin/admin.playlists.html.twig";
     
     /**
-     *
      * @var PlaylistRepository
      */
     private $playlistRepository;
     
     /**
-     *
      * @var FormationRepository
      */
     private $formationRepository;
     
     /**
-     *
      * @var CategorieRepository
      */
     private $categorieRepository;
     
+    /**
+     * Constructeur
+     * @param PlaylistRepository $playlistRepository
+     * @param CategorieRepository $categorieRepository
+     * @param FormationRepository $formationRepository
+     */
     public function __construct(
         PlaylistRepository $playlistRepository,
         CategorieRepository $categorieRepository,
@@ -67,7 +69,13 @@ class AdminPlaylistsController extends AbstractController
             'categories' => $categories
         ]);
     }
-
+    
+    /**
+     * @Route("/admin/playlists/tri/{champ}/{ordre}", name: "admin.playlists.sort")
+     * @param type $champ
+     * @param type $ordre
+     * @return Response
+     */
     #[Route('/admin/playlists/tri/{champ}/{ordre}', name: 'admin.playlists.sort')]
     public function sort($champ, $ordre): Response
     {
@@ -89,7 +97,14 @@ class AdminPlaylistsController extends AbstractController
             'categories' => $categories
         ]);
     }
-
+    
+    /**
+     * @Route("/admin/playlists/recherche/{champ}/{table}", name: "admin.playlists.findallcontain")
+     * @param type $champ
+     * @param Request $request
+     * @param type $table
+     * @return Response
+     */
     #[Route('/admin/playlists/recherche/{champ}/{table}', name: 'admin.playlists.findallcontain')]
     public function findAllContain($champ, Request $request, $table=""): Response
     {
@@ -103,7 +118,12 @@ class AdminPlaylistsController extends AbstractController
             'table' => $table
         ]);
     }
-
+    
+    /**
+     * @Route("/admin/playlists/playlist/{id}", name: "admin.playlists.showone")
+     * @param type $id
+     * @return Response
+     */
     #[Route('/admin/playlists/playlist/{id}', name: 'admin.playlists.showone')]
     public function showOne($id): Response
     {
@@ -118,6 +138,13 @@ class AdminPlaylistsController extends AbstractController
         ]);
     }
     
+    /**
+     * @Route("/admin/playlists/edit/{id}", name: "admin.playlists.edit")
+     * @param type $id
+     * @param Request $request
+     * @param EntityManagerInterface $entityManager
+     * @return Response
+     */
     #[Route('admin/playlists/edit/{id}', name: 'admin.playlists.edit')]
     public function edit($id, Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -141,6 +168,13 @@ class AdminPlaylistsController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/admin/playlists/delete/{id}", name: "admin.playlists.delete")
+     * @param Request $request
+     * @param Playlist $playlist
+     * @param EntityManagerInterface $entityManager
+     * @return Response
+     */
     #[Route('admin/playlists/delete/{id}', name: 'admin.playlists.delete', methods: ['POST'])]
     public function delete(Request $request, Playlist $playlist, EntityManagerInterface $entityManager): Response
     {
@@ -158,7 +192,13 @@ class AdminPlaylistsController extends AbstractController
 
         return $this->redirectToRoute('admin.playlists');
     }
-    
+
+    /**
+     * @Route("/admin/playlists/ajout", name: "admin.playlists.ajout")
+     * @param Request $request
+     * @param PlaylistRepository $repository
+     * @return Response
+     */
     #[Route('admin/playlists/ajout', name: 'admin.playlists.ajout')]
     public function ajout(Request $request, PlaylistRepository $repository): Response
     {

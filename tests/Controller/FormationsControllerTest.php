@@ -6,12 +6,19 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Description of FormationsControllerTest
- *
+ * Tests fonctionnels pour le contrôleur des formations
+ * 
+ * Vérifie l'accessibilité, le contenu, le filtrage et la navigation
+ * dans les pages liées aux formations
+ * 
  * @author Enzo Baum
  */
 class FormationsControllerTest extends WebTestCase
 {
+    /**
+     * Vérifie que la page de liste des formations est accessible
+     * et retourne un code HTTP 200.
+     */
     public function testAccesPage()
     {
         $client = static::createClient();
@@ -19,6 +26,10 @@ class FormationsControllerTest extends WebTestCase
         $this->assertResponseStatusCodeSame(Response::HTTP_OK);
     }
     
+    /**
+     * Vérifie que la page contient le tableau des formations
+     * avec la structure attendue (5 colonnes et données correctes)
+     */
     public function testContenuPage()
     {
         $client = static::createClient();
@@ -31,6 +42,12 @@ class FormationsControllerTest extends WebTestCase
         $this->assertSelectorTextContains('h5', 'Eclipse n°8 : Déploiement');
     }
     
+    /**
+     * Vérifie que le filtrage par nom de formation fonctionne correctement
+     * 
+     * Teste la soumission du formulaire de recherche et vérifie que seule
+     * la formation correspondante est affichée dans les résultats
+     */
     public function testFiltreFormation()
     {
         $client = static::createClient();
@@ -44,6 +61,12 @@ class FormationsControllerTest extends WebTestCase
         $this->assertSelectorTextContains('h5', 'Cours Informatique embarquée');
     }
     
+    /**
+     * Vérifie que le lien vers le détail d'une formation fonctionne
+     * 
+     * Teste le clic sur la miniature d'une formation et vérifie que
+     * la page de détail s'affiche avec les bonnes informations (route et titre)
+     */
     public function testLinkFormation()
     {
         $client = static::createClient();

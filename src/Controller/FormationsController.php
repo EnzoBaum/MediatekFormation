@@ -9,36 +9,42 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * Controleur des formations
- *
+ * Contrôleur des formations
  * @author Enzo Baum
  */
 class FormationsController extends AbstractController
 {
     
     /**
-     * Chemin vers la page de formation
+     * Chemin vers la page des formations
      */
     private const CHEMIN_FORMATIONS = "pages/formations.html.twig";
 
     /**
-     *
      * @var FormationRepository
      */
     private $formationRepository;
     
     /**
-     *
      * @var CategorieRepository
      */
     private $categorieRepository;
     
+    /**
+     * Constructeur
+     * @param FormationRepository $formationRepository
+     * @param CategorieRepository $categorieRepository
+     */
     public function __construct(FormationRepository $formationRepository, CategorieRepository $categorieRepository)
     {
         $this->formationRepository = $formationRepository;
         $this->categorieRepository= $categorieRepository;
     }
     
+    /**
+     * @Route("/formations", name: "formations")
+     * @return Response
+     */
     #[Route('/formations', name: 'formations')]
     public function index(): Response
     {
@@ -49,7 +55,14 @@ class FormationsController extends AbstractController
             'categories' => $categories
         ]);
     }
-
+    
+    /**
+     * @Route("/formations/tri/{champ}/{ordre}/{table}", name: "formations.sort")
+     * @param type $champ
+     * @param type $ordre
+     * @param type $table
+     * @return Response
+     */
     #[Route('/formations/tri/{champ}/{ordre}/{table}', name: 'formations.sort')]
     public function sort($champ, $ordre, $table=""): Response
     {
@@ -60,7 +73,14 @@ class FormationsController extends AbstractController
             'categories' => $categories
         ]);
     }
-
+    
+    /**
+     * @Route("/formations/recherche/{champ}/{table}", name: "formations.findallcontain")
+     * @param type $champ
+     * @param Request $request
+     * @param type $table
+     * @return Response
+     */
     #[Route('/formations/recherche/{champ}/{table}', name: 'formations.findallcontain')]
     public function findAllContain($champ, Request $request, $table=""): Response
     {
@@ -74,7 +94,12 @@ class FormationsController extends AbstractController
             'table' => $table
         ]);
     }
-
+    
+    /**
+     * @Route("/formations/formation/{id}", name: "formations.showone")
+     * @param type $id
+     * @return Response
+     */
     #[Route('/formations/formation/{id}', name: 'formations.showone')]
     public function showOne($id): Response
     {

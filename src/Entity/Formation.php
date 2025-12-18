@@ -9,6 +9,9 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
+/**
+ * Entité représentant une formation
+ */
 #[ORM\Entity(repositoryClass: FormationRepository::class)]
 class Formation
 {
@@ -22,7 +25,11 @@ class Formation
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
-
+    
+    /**
+     * Date de publication de la formation
+     * @var \DateTimeInterface|null
+     */
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     #[Assert\LessThanOrEqual("now")]
     private ?\DateTimeInterface $publishedAt = null;
@@ -32,7 +39,11 @@ class Formation
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
-
+    
+    /**
+     * Identifiant unique de la vidéo YouTube
+     * @var string|null
+     */
     #[ORM\Column(length: 20, nullable: true)]
     private ?string $videoId = null;
 
@@ -66,7 +77,11 @@ class Formation
 
         return $this;
     }
-
+    
+    /**
+     * Retourne la date de publucation formatée (jj/mm/aaaa)
+     * @return string
+     */
     public function getPublishedAtString(): string
     {
         if ($this->publishedAt == null) {

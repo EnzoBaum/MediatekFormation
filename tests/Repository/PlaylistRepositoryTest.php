@@ -9,20 +9,33 @@ use App\Repository\PlaylistRepository;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 /**
- * Description of PlaylistRepositoryTest
- *
+ * Tests unitaires pour le repository PlaylistRepository
+ * 
+ * Vérifie les opérations CRUD et les requêtes personnalisées sur les playlists :
+ * - Ajout et suppression
+ * - Tri par nom
+ * - Tri par nombre de formations
+ * - Recherche par valeur contenue (dans l'entité et les relations)
+ * 
  * @author Enzo Baum
  */
 class PlaylistRepositoryTest extends KernelTestCase {
     
- // Récupération du repository
+    /**
+     * Récupère une instance du repository PlaylistRepository
+     * @return PlaylistRepository
+     */
     public function recupRepository(): PlaylistRepository
     {
         self::bootKernel();
         return self::getContainer()->get(PlaylistRepository::class);
     }
     
-    // Test d'ajout d'une playlist
+    /**
+     * Vérifie que l'ajout d'une playlist fonctionne correctement.
+     * 
+     * Teste que le compteur de playlists augmente de 1 après l'ajout.
+     */
     public function testAddPlaylist()
     {
         $repository = $this->recupRepository();
@@ -32,7 +45,11 @@ class PlaylistRepositoryTest extends KernelTestCase {
         $this->assertEquals($nbPlaylists + 1, $repository->count([]), "erreur lors de l'ajout");
     }
     
-    // Test de suppression d'une playlist
+    /**
+     * Vérifie que la suppression d'une playlist fonctionne correctement.
+     * 
+     * Teste que le compteur de playlists diminue de 1 après la suppression.
+     */
     public function testRemovePlaylist()
     {
         $repository = $this->recupRepository();
@@ -43,7 +60,12 @@ class PlaylistRepositoryTest extends KernelTestCase {
         $this->assertEquals($nbPlaylists - 1, $repository->count([]), "erreur lors de la suppression");
     }
     
-    // Test du tri des playlists par nom
+    /**
+     * Vérifie que le tri des playlists par nom fonctionne correctement.
+     * 
+     * Teste findAllOrderByName avec un tri ascendant et vérifie que
+     * l'ordre alphabétique est respecté.
+     */
     public function testFindAllOrderByName()
     {
         $repository = $this->recupRepository();
@@ -66,8 +88,13 @@ class PlaylistRepositoryTest extends KernelTestCase {
         // Vérifie que "L'HTML" vient avant "Le PHP"
         $this->assertTrue(array_search("L'HTML", $names) < array_search("Le PHP", $names));
     }
-    
-    // Test du tri des playlists par nombre de formations
+
+    /**
+     * Vérifie que le tri des playlists par nombre de formations fonctionne.
+     *
+     * Teste findAllOrderByNbFormations avec un nombre différent de formations et
+     * vérifie que le tri décroissant place en premier celle qui a le plus de formations
+     */
     public function testFindAllOrderByNbFormations()
     {
         $repository = $this->recupRepository();
@@ -99,8 +126,17 @@ class PlaylistRepositoryTest extends KernelTestCase {
         );
     }
     
-    // Test retournant les enregistrements dont un champ contient une valeur
-    // ou tous les enregistrements si la valeur est vide
+    /**
+     * Vérifie que la recherche fonctionne correctement.
+     *
+     * Teste findByContainValue avec :
+     * - Valeur vide : retourne toutes les playlists
+     * - Recherche dans un champ de Playlist (name)
+     * - Recherche dans un champ d'une relation (Categorie via formations)
+     *
+     * Ce dernier cas vérifie qu'une playlist peut être retrouvée via les catégories
+     * de ses formations.
+     */
     public function testFindByContainValue()
     {
         $repository = $this->recupRepository();

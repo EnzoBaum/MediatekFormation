@@ -8,6 +8,9 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
+/**
+ * Entité représentant une playlist
+ */
 #[ORM\Entity(repositoryClass: PlaylistRepository::class)]
 class Playlist
 {
@@ -84,7 +87,6 @@ class Playlist
     {
         if ($this->formations->removeElement($formation) &&
                 $formation->getPlaylist() === $this) {
-            // set the owning side to null (unless already changed)
             $formation->setPlaylist(null);
         }
 
@@ -92,6 +94,7 @@ class Playlist
     }
     
     /**
+     * Retourne toutes les catégories uniques des formations de cette playlist
      * @return Collection<int, string>
      */
     public function getCategoriesPlaylist() : Collection

@@ -11,24 +11,26 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * Description of AdminCategoriesController
- *
+ * Contrôleur des catégories
  * @author Enzo Baum
  */
 class AdminCategoriesController extends AbstractController
 {
     
     /**
-     * Chemin vers la page de catégorie
+     * Chemin vers la page des catégories
      */
     private const CHEMIN_CATEGORIE = "pages/admin/admin.categories.html.twig";  
     
     /**
-     *
      * @var CategorieRepository
      */
     private $categorieRepository;
     
+    /**
+     * Constructeur
+     * @param CategorieRepository $categorieRepository
+     */
     public function __construct(
         CategorieRepository $categorieRepository,
     ) {
@@ -36,7 +38,7 @@ class AdminCategoriesController extends AbstractController
     }
     
     /**
-     * @Route("/categories", name="categories")
+     * @Route("/admin/categories", name="admin.categories")
      * @return Response
      */
     #[Route('/admin/categories', name: 'admin.categories')]
@@ -69,7 +71,14 @@ class AdminCategoriesController extends AbstractController
             'formcategorie' => $form->createView(),
         ]);
     }
-
+    
+    /**
+     * @Route("/admin/categories/delete/{id}", name="admin.categories.delete")
+     * @param Request $request
+     * @param Categorie $categorie
+     * @param EntityManagerInterface $entityManager
+     * @return Response
+     */
     #[Route('admin/categories/delete/{id}', name: 'admin.categories.delete', methods: ['POST'])]
     public function delete(Request $request, Categorie $categorie, EntityManagerInterface $entityManager): Response
     {

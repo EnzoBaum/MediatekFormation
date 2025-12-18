@@ -7,19 +7,31 @@ use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 /**
- * Description of UserRepositoryTest
- *
+ * Tests unitaires pour le repository UserRepository.
+ * 
+ * Vérifie les opérations spécifiques à la gestion des utilisateurs,
+ * notamment la mise à jour des mots de passe.
+ * 
  * @author Enzo Baum
  */
 class UserRepositoryTest extends KernelTestCase {
 
-    // Récupération du repository
+    /**
+     * Récupère une instance du repository UserRepository
+     * @return UserRepository 
+     */
     public function recupRepository(): UserRepository {
         self::bootKernel();
         return self::getContainer()->get(UserRepository::class);
     }
 
-    // Test de la méthode upgradePassword
+    /**
+     * Vérifie que la mise à jour du mot de passe d'un utilisateur fonctionne.
+     * 
+     * Teste la méthode upgradePassword en créant un utilisateur avec un ancien
+     * mot de passe, puis en le mettant à jour avec un nouveau hash
+     * Vérifie que le mot de passe stocké correspond au nouveau hash fourni
+     */
     public function testUpgradePassword()
     {
         $repository = $this->recupRepository();
