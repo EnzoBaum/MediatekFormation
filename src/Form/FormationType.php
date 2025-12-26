@@ -82,6 +82,7 @@ class FormationType extends AbstractType
             ->add('videoId', TextType::class, [
                 'label' => 'Lien ou ID de la vidéo YouTube',
                 'required' => false,
+                'mapped' => false,
                 'attr' => [
                     'placeholder' => 'Exemple : https://www.youtube.com/watch?v=XXXXX',
                 ],

@@ -29,8 +29,12 @@ class AdminFormationsController extends AbstractController
      * @param string $videoUrl
      * @return string
      */
-    private function extractVideoId(string $videoUrl): string
+    private function extractVideoId(?string $videoUrl): ?string
     {
+        if (empty($videoUrl)) {
+            return null;
+        }
+        
         if (str_contains($videoUrl, 'youtube.com/watch?v=')) {
             $videoId = explode('v=', $videoUrl)[1];
             return explode('&', $videoId)[0];
@@ -127,7 +131,7 @@ class AdminFormationsController extends AbstractController
     public function showOne($id): Response
     {
         $formation = $this->formationRepository->find($id);
-        return $this->render(self::CHEMIN_FORMATIONS, [
+        return $this->render('pages/admin/admin.formation.html.twig', [
             'formation' => $formation
         ]);
     }
@@ -147,9 +151,9 @@ class AdminFormationsController extends AbstractController
         $form = $this->createForm(FormationType::class, $formation);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) 
+        {
             $fullVideoUrl = $form->get('videoId')->getData();
-
             $formation->setVideoId($this->extractVideoId($fullVideoUrl));
 
             $entityManager->flush();
@@ -175,7 +179,8 @@ class AdminFormationsController extends AbstractController
     #[Route('admin/formations/delete/{id}', name: 'admin.formations.delete', methods: ['POST'])]
     public function delete(Request $request, Formation $formation, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete' . $formation->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $formation->getId(), $request->request->get('_token'))) 
+        {
             $entityManager->remove($formation);
             $entityManager->flush();
 
@@ -199,7 +204,10 @@ class AdminFormationsController extends AbstractController
         $form = $this->createForm(FormationType::class, $formation);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) 
+        {
+            $fullVideoUrl = $form->get('videoId')->getData();
+            $formation->setVideoId($this->extractVideoId($fullVideoUrl));
             
             $formation->setPublishedAt(new DateTime());
             

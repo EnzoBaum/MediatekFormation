@@ -124,6 +124,9 @@ class PlaylistsController extends AbstractController
     #[Route('/playlists/playlist/{id}', name: 'playlists.showone')]
     public function showOne($id): Response
     {
+        $em = $this->playlistRepository->getEntityManager();
+	$em->getConnection()->exec('SET SQL_BIG_SELECTS=1');
+        
         $playlist = $this->playlistRepository->find($id);
         $playlistCategories = $this->categorieRepository->findAllForOnePlaylist($id);
         $playlistFormations = $this->formationRepository->findAllForOnePlaylist($id);
@@ -134,5 +137,4 @@ class PlaylistsController extends AbstractController
             'playlistformations' => $playlistFormations,
         ]);
     }
-    
 }
