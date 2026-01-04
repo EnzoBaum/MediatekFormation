@@ -1,13 +1,14 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 4.9.0.1
 -- https://www.phpmyadmin.net/
 --
--- Hôte : 127.0.0.1:3306
--- Généré le : lun. 13 mai 2024 à 15:26
--- Version du serveur : 8.2.0
--- Version de PHP : 8.2.13
+-- Hôte : sql100.infinityfree.com
+-- Généré le :  Dim 04 jan. 2026 à 03:43
+-- Version du serveur :  10.6.22-MariaDB
+-- Version de PHP :  7.2.22
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -18,10 +19,8 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de données : `mediatekformation`
+-- Base de données :  `if0_40738878_mediatekformation`
 --
-CREATE DATABASE IF NOT EXISTS `mediatekformation` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
-USE `mediatekformation`;
 
 -- --------------------------------------------------------
 
@@ -29,12 +28,10 @@ USE `mediatekformation`;
 -- Structure de la table `categorie`
 --
 
-DROP TABLE IF EXISTS `categorie`;
-CREATE TABLE IF NOT EXISTS `categorie` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+CREATE TABLE `categorie` (
+  `id` int(11) NOT NULL,
+  `name` varchar(50) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `categorie`
@@ -49,7 +46,9 @@ INSERT INTO `categorie` (`id`, `name`) VALUES
 (6, 'Android'),
 (7, 'POO'),
 (8, 'SQL'),
-(9, 'Cours');
+(9, 'Cours'),
+(18, 'TestAvecFormations'),
+(22, 'test');
 
 -- --------------------------------------------------------
 
@@ -57,12 +56,10 @@ INSERT INTO `categorie` (`id`, `name`) VALUES
 -- Structure de la table `doctrine_migration_versions`
 --
 
-DROP TABLE IF EXISTS `doctrine_migration_versions`;
-CREATE TABLE IF NOT EXISTS `doctrine_migration_versions` (
-  `version` varchar(191) COLLATE utf8mb3_unicode_ci NOT NULL,
+CREATE TABLE `doctrine_migration_versions` (
+  `version` varchar(191) NOT NULL,
   `executed_at` datetime DEFAULT NULL,
-  `execution_time` int DEFAULT NULL,
-  PRIMARY KEY (`version`)
+  `execution_time` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 
 --
@@ -78,24 +75,21 @@ INSERT INTO `doctrine_migration_versions` (`version`, `executed_at`, `execution_
 -- Structure de la table `formation`
 --
 
-DROP TABLE IF EXISTS `formation`;
-CREATE TABLE IF NOT EXISTS `formation` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `playlist_id` int DEFAULT NULL,
+CREATE TABLE `formation` (
+  `id` int(11) NOT NULL,
+  `playlist_id` int(11) DEFAULT NULL,
   `published_at` datetime DEFAULT NULL,
-  `title` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `description` longtext COLLATE utf8mb4_unicode_ci,
-  `video_id` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `IDX_404021BF6BBD148` (`playlist_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=241 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `title` varchar(100) DEFAULT NULL,
+  `description` longtext DEFAULT NULL,
+  `video_id` varchar(20) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `formation`
 --
 
 INSERT INTO `formation` (`id`, `playlist_id`, `published_at`, `title`, `description`, `video_id`) VALUES
-(1, 1, '2021-01-04 17:00:12', 'Eclipse n°8 : Déploiement', 'Exécution de l\'application en dehors de l\'IDE, en invite de commande.\nCréation d\'un ficher jar pour le déploiement de l\'application.\n00:20 : exécuter l\'application à partir d\'un invite de commandes\n04:41 : créer un fichier jar auto exécutable\n06:42 : exécuter un fichier jar directement\n07:09 : exécuter un fichier jar dans l\'invite de commande pour avoir les retours console', 'Z4yTTXka958'),
+(1, 1, '2021-01-04 00:00:00', 'Eclipse n°8 : Déploiement', 'Exécution de l\'application en dehors de l\'IDE, en invite de commande.\r\nCréation d\'un ficher jar pour le déploiement de l\'application.\r\n00:20 : exécuter l\'application à partir d\'un invite de commandes\r\n04:41 : créer un fichier jar auto exécutable\r\n06:42 : exécuter un fichier jar directement\r\n07:09 : exécuter un fichier jar dans l\'invite de commande pour avoir les retours console', 'Z4yTTXka958'),
 (2, 1, '2021-01-02 17:00:01', 'Eclipse n°7 : Tests unitaires', 'Intégration de JUnit dans l\'application et création de tests unitaires.\n00:07 : rappel sur le principe du test unitaire\n01:01 : intégrer JUnit au projet (une seule fois)\n01:52 : créer une classe de test\n03:49 : créer une méthode de test\n08:35 : lancer le test\n09:11 : créer une autre méthode de test pour tester la même méthode\n11:02 : relancer le test', '-nw42Xq6cYE'),
 (3, 1, '2020-12-30 17:00:07', 'Eclipse n°6 : Documentation technique', 'Intégration des commentaires normalisés et génération automatique de la documentation technique\n00:08 : insérer des commentaires normalisés\n02:14 : générer documentation technique\n04:35 : repérer et corriger les erreurs et warnings\n06:58 : afficher la documentation technique', 'PrK_P3TKc00'),
 (4, 1, '2020-12-29 17:00:00', 'Eclipse n°5 : Refactoring', 'Utilisation des outils de refactoring et de génération automatique de code.\n01:00 : refaire automatiquement les indentations\n01:25 : changer un nom (classe, méhode, propriété)\n04:04 : extraire une méthode\n06:19 : modifier la signature d\'une méthode\n09:23 : générer du code (constructeur, getter/setter)\n12:34 : encapsuler une propriété\n15:30 : extraire une interface', '1p_mKDDSMnQ'),
@@ -333,7 +327,8 @@ INSERT INTO `formation` (`id`, `playlist_id`, `published_at`, `title`, `descript
 (237, 24, '2016-09-25 10:10:06', 'Cours UML (16 à 18 / 33) : diagramme de séquences', 'But : notions globales du langage de modélisation UML\r\nLe cours est constitué de 33 diapos, découpées en 6 vidéos (durée totale 57mn) :\r\n1-7 : introduction et cas d\'utilisation\r\n8-11 : diagramme de classes\r\n12-15 : diagramme d\'états\r\n16-18 : diagramme de séquences\r\n19-24 : autres diagrammes\r\n25-33 : exercices\r\n\r\nlien vers le pdf du cours :\r\nhttp://bit.ly/EmdsUML', 'OL2Ks4jeUZ0'),
 (238, 24, '2016-09-25 10:07:00', 'Cours UML (12 à 15 / 33) : diagramme d\'états', 'But : notions globales du langage de modélisation UML\r\nLe cours est constitué de 33 diapos, découpées en 6 vidéos (durée totale 57mn) :\r\n1-7 : introduction et cas d\'utilisation\r\n8-11 : diagramme de classes\r\n12-15 : diagramme d\'états\r\n16-18 : diagramme de séquences\r\n19-24 : autres diagrammes\r\n25-33 : exercices\r\n\r\nlien vers le pdf du cours :\r\nhttp://bit.ly/EmdsUML', 'L1x4sLVR7CI'),
 (239, 24, '2016-09-25 10:03:58', 'Cours UML (8 à 11 / 33) : diagramme de classes', 'But : notions globales du langage de modélisation UML\r\nLe cours est constitué de 33 diapos, découpées en 6 vidéos (durée totale 57mn) :\r\n1-7 : introduction et cas d\'utilisation\r\n8-11 : diagramme de classes\r\n12-15 : diagramme d\'états\r\n16-18 : diagramme de séquences\r\n19-24 : autres diagrammes\r\n25-33 : exercices\r\n\r\nlien vers le pdf du cours :\r\nhttp://bit.ly/EmdsUML', '8PmTJIrlS5w'),
-(240, 24, '2016-09-25 09:59:04', 'Cours UML (1 à 7 / 33) : introduction et cas d\'utilisation', 'But : notions globales du langage de modélisation UML\r\nLe cours est constitué de 33 diapos, découpées en 6 vidéos (durée totale 57mn) :\r\n1-7 : introduction et cas d\'utilisation\r\n8-11 : diagramme de classes\r\n12-15 : diagramme d\'états\r\n16-18 : diagramme de séquences\r\n19-24 : autres diagrammes\r\n25-33 : exercices\r\n\r\nlien vers le pdf du cours :\r\nhttp://bit.ly/EmdsUML\r\n\r\n\r\nRemarque :\r\nDe nouvelles vidéos sur UML :\r\nDiagramme de cas d\'utilisation : https://youtu.be/LDTDlXMV1xY', 'dJd6azZr9Kg');
+(240, 24, '2016-09-25 09:59:04', 'Cours UML (1 à 7 / 33) : introduction et cas d\'utilisation', 'But : notions globales du langage de modélisation UML\r\nLe cours est constitué de 33 diapos, découpées en 6 vidéos (durée totale 57mn) :\r\n1-7 : introduction et cas d\'utilisation\r\n8-11 : diagramme de classes\r\n12-15 : diagramme d\'états\r\n16-18 : diagramme de séquences\r\n19-24 : autres diagrammes\r\n25-33 : exercices\r\n\r\nlien vers le pdf du cours :\r\nhttp://bit.ly/EmdsUML\r\n\r\n\r\nRemarque :\r\nDe nouvelles vidéos sur UML :\r\nDiagramme de cas d\'utilisation : https://youtu.be/LDTDlXMV1xY', 'dJd6azZr9Kg'),
+(255, 7, '2019-12-18 00:00:00', 'Pour Catégorie TestAvecFormations', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -341,13 +336,9 @@ INSERT INTO `formation` (`id`, `playlist_id`, `published_at`, `title`, `descript
 -- Structure de la table `formation_categorie`
 --
 
-DROP TABLE IF EXISTS `formation_categorie`;
-CREATE TABLE IF NOT EXISTS `formation_categorie` (
-  `formation_id` int NOT NULL,
-  `categorie_id` int NOT NULL,
-  PRIMARY KEY (`formation_id`,`categorie_id`),
-  KEY `IDX_830086E95200282E` (`formation_id`),
-  KEY `IDX_830086E9BCF5E72D` (`categorie_id`)
+CREATE TABLE `formation_categorie` (
+  `formation_id` int(11) NOT NULL,
+  `categorie_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -631,7 +622,11 @@ INSERT INTO `formation_categorie` (`formation_id`, `categorie_id`) VALUES
 (239, 2),
 (239, 9),
 (240, 2),
-(240, 9);
+(240, 9),
+(255, 18),
+(0, 1),
+(0, 4),
+(0, 18);
 
 -- --------------------------------------------------------
 
@@ -639,19 +634,14 @@ INSERT INTO `formation_categorie` (`formation_id`, `categorie_id`) VALUES
 -- Structure de la table `messenger_messages`
 --
 
-DROP TABLE IF EXISTS `messenger_messages`;
-CREATE TABLE IF NOT EXISTS `messenger_messages` (
-  `id` bigint NOT NULL AUTO_INCREMENT,
-  `body` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `headers` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `queue_name` varchar(190) COLLATE utf8mb4_unicode_ci NOT NULL,
+CREATE TABLE `messenger_messages` (
+  `id` bigint(20) NOT NULL,
+  `body` longtext NOT NULL,
+  `headers` longtext NOT NULL,
+  `queue_name` varchar(190) NOT NULL,
   `created_at` datetime NOT NULL COMMENT '(DC2Type:datetime_immutable)',
   `available_at` datetime NOT NULL COMMENT '(DC2Type:datetime_immutable)',
-  `delivered_at` datetime DEFAULT NULL COMMENT '(DC2Type:datetime_immutable)',
-  PRIMARY KEY (`id`),
-  KEY `IDX_75EA56E0FB7336F0` (`queue_name`),
-  KEY `IDX_75EA56E0E3BD61CE` (`available_at`),
-  KEY `IDX_75EA56E016BA31DB` (`delivered_at`)
+  `delivered_at` datetime DEFAULT NULL COMMENT '(DC2Type:datetime_immutable)'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -660,13 +650,11 @@ CREATE TABLE IF NOT EXISTS `messenger_messages` (
 -- Structure de la table `playlist`
 --
 
-DROP TABLE IF EXISTS `playlist`;
-CREATE TABLE IF NOT EXISTS `playlist` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `description` longtext COLLATE utf8mb4_unicode_ci,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+CREATE TABLE `playlist` (
+  `id` int(11) NOT NULL,
+  `name` varchar(100) DEFAULT NULL,
+  `description` longtext DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `playlist`
@@ -689,7 +677,7 @@ INSERT INTO `playlist` (`id`, `name`, `description`) VALUES
 (14, 'Exercices triggers, sql et correctifs (sujets EDC BTS SIO)', 'Prérequis : avoir vu le cours triggers (et mcd)\r\nBut : Présenter comment traiter les parties triggers, sql et correctifs d\'un sujet de BTS SIO'),
 (15, 'Exercices objet (sujets EDC BTS SIO)', 'Prérequis : avoir vu le cours (playlist) objet\r\nBut : Présenter comment traiter la partie objet d\'un sujet de BTS SIO'),
 (16, 'MCD exercices d\'examen (sujets EDC BTS SIO)', 'Prérequis : avoir vu les cours \"Modèle relationnel et MCD\"\r\nhttps://youtu.be/VFHVNA8xgK0\r\net le cours Merise/2\r\nhttps://youtu.be/smTFM4GCEgc\r\nBut : Présenter comment traiter la partie conception de données de sujets de BTS SIO'),
-(17, 'Cours Composant logiciel', 'Cours Composant logiciel (26mn)\r\nPrérequis : aucun\r\nBut : présenter succinctement la notion de composant logiciel et en exemple le web service\r\nLe cours est constitué de 14 diapos, découpées en 2 vidéos (durée totale 26mn) :\r\n1-10 : notion de composant logiciel\r\n11-14 : web service\r\n\r\nLien vers le pdf du cours :\r\nhttp://bit.ly/EmdsComposants_logiciels\r\n'),
+(17, 'Cours Composant logiciel', 'Cours Composant logiciel (26mn)\r\nPrérequis : aucun\r\nBut : présenter succinctement la notion de composant logiciel et en exemple le web service\r\nLe cours est constitué de 14 diapos, découpées en 2 vidéos (durée totale 26mn) :\r\n1-10 : notion de composant logiciel\r\n11-14 : web service\r\n\r\nLien vers le pdf du cours :\r\nhttp://bit.ly/EmdsComposants_logiciels'),
 (18, 'Cours MCD MLD MPD', 'Cours MCD MLD MPD (28mn) :\r\nPrérequis : connaissances en MCD\r\nBut : montrer comment passer du MCD au MLD puis MPD pour créer la base de données\r\nLe cours est constitué de 19 diapos, découpées en 2 vidéos (durée totale 28mn) :\r\n1-9 : introduction, entités, associations, héritage, contraintes\r\n10-19 : exercices\r\n\r\nLien vers le pdf du cours :\r\nhttp://bit.ly/EmdsMCD_MLD_MPD\r\n'),
 (19, 'Cours MCD vs Diagramme de classes', 'Cours MCD vs Diagramme de classes (26mn) :\r\nPrérequis : connaissances en MCD et Diagramme de classes\r\nBut : montrer comment passer du MCD au Diagramme de classes\r\nLe cours est constitué de 20 diapos, découpées en 2 vidéos (durée totale 26mn) :\r\n1-11 : introduction, entités, associations\r\n12-20 : héritage, contraintes, exercices\r\n\r\nLien vers le pdf du cours :\r\nhttp://bit.ly/EmdsMCD_vs_UML\r\n'),
 (20, 'Cours Transactions et verrou', 'Cours Transactions et verrous (32mn)\r\n\r\nPrérequis : connaissances basiques en SQL\r\nBut : présentation des transactions sql et de leur niveau d\'isolement, ainsi que des verrous explicites (programmation dans un SGBDR)\r\nLe cours est constitué de 17 diapos, découpées en 3 vidéos (durée totale 32mn) :\r\n1-6 : transactions\r\n7-13 : verrous et problèmes d\'accès\r\n14-17 : risques sur les verrous et cas d\'utilisation\r\n\r\nlien vers le pdf du cours :\r\nhttp://bit.ly/EmdsTransactions_verrous\r\n'),
@@ -699,25 +687,27 @@ INSERT INTO `playlist` (`id`, `name`, `description`) VALUES
 (24, 'Cours UML', 'Cours UML (57mn)\r\nPrérequis : connaissances en objet \r\nBut : notions globales du langage de modélisation UML\r\nLe cours est constitué de 33 diapos, découpées en 6 vidéos (durée totale 57mn) :\r\n1-7 : introduction et cas d\'utilisation\r\n8-11 : diagramme de classes\r\n12-15 : diagramme d\'états\r\n16-18 : diagramme de séquences\r\n19-24 : autres diagrammes\r\n25-33 : exercices\r\n\r\nlien vers le pdf du cours :\r\nhttp://bit.ly/EmdsUML'),
 (25, 'Cours Merise/2', 'La playlist contient :\r\n- la nouvelle version du cours en une seule vidéo\r\n\r\nLien vers le pdf du cours :\r\nhttp://bit.ly/EmdsMerise2'),
 (26, 'Cours Modèle relationnel et MCD', 'La playlist contient :\r\n- la nouvelle version du cours en une seule vidéo (1h08)\r\n\r\nLien vers le pdf du cours :\r\nhttp://bit.ly/EmdsMCD'),
-(27, 'Cours de programmation objet', 'La playlist contient :\r\n- la nouvelle version du cours en une seule vidéo\r\n\r\nLien vers le pdf du cours :\r\nhttp://bit.ly/EmdsObjet'),
-(28, 'playlist test', 'description playlist test');
+(27, 'Cours de programmation objet', 'La playlist contient :\r\n- la nouvelle version du cours en une seule vidéo\r\n\r\nLien vers le pdf du cours :\r\nhttp://bit.ly/EmdsObjet');
+
+-- --------------------------------------------------------
 
 --
--- Contraintes pour les tables déchargées
+-- Structure de la table `user`
 --
 
---
--- Contraintes pour la table `formation`
---
-ALTER TABLE `formation`
-  ADD CONSTRAINT `FK_404021BF6BBD148` FOREIGN KEY (`playlist_id`) REFERENCES `playlist` (`id`);
+CREATE TABLE `user` (
+  `id` int(11) NOT NULL,
+  `username` varchar(50) NOT NULL,
+  `password` text NOT NULL,
+  `roles` varchar(50) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Contraintes pour la table `formation_categorie`
+-- Déchargement des données de la table `user`
 --
-ALTER TABLE `formation_categorie`
-  ADD CONSTRAINT `FK_830086E95200282E` FOREIGN KEY (`formation_id`) REFERENCES `formation` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `FK_830086E9BCF5E72D` FOREIGN KEY (`categorie_id`) REFERENCES `categorie` (`id`) ON DELETE CASCADE;
+
+INSERT INTO `user` (`id`, `username`, `password`, `roles`) VALUES
+(0, 'admin', '$2y$13$Hylyvvrc.QEjM9jX0OAbt.lGB0s8CIJlmdMBwQpN0d95tC8c535GW', '[\"ROLE_ADMIN\"]');
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
